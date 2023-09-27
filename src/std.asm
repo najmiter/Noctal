@@ -207,7 +207,7 @@ section .text
     
     ;; for (i < size - 1)
     mov [outer_boundary], rdx
-    sub [outer_boundary], rcx
+    sub qword [outer_boundary], SIZE64t
 
     ;; for (j < size)
     mov [inner_boundary], rdx
