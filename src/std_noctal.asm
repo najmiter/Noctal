@@ -222,7 +222,7 @@ section .text
     
     ;; for (i < size - 1)
     mov [outer_boundary], rdx			; Save and set the value of outer loop's bounds
-    sub qword [outer_boundary], SIZE64t
+    sub qword [outer_boundary], SIZE_64t
 
     ;; for (j < size)
     mov [inner_boundary], rdx			; Save and set the value of inner loop's bounds
