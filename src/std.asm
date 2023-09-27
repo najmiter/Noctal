@@ -194,67 +194,75 @@ section .text
 ;;;;;;;;;;;;;;;;;;;;; sort_64array ;;;;;;;;;;;;;;;;;;;;;;
 
 std__sort:
+    ; ----------------------------------------------------------------------
+    ;    TAKES
+    ;        ||------> 1. RSI => Pointer to the array
+    ;                  2. RDX => Size of the array
+    ;
+    ;    GIVES
+    ;        ||------> 1. RSI = Sorted array
+    ;
+    ; ----------------------------------------------------------------------
 section .data
-    elem_size      dq 8
+    elem_size      equ 8
     
     array_ptr      dq 0
-    min_p          dq 0  ; to store the index of next minimum value in the array
-    outer_boundary dq 0  ; outer loop boundary
-    inner_boundary dq 0  ; inner loop boundary
+    outer_boundary dq 0  ; boundary for the outer loop
+    inner_boundary dq 0  ; boundary for the inner loop
     
 section .text
-    pushaq
-    mov [array_ptr],  rsi
+    pushaq						; Put all the registers onto the stack
+    mov [array_ptr],  rsi			; Save the pointer
     
     ;; for (i < size - 1)
-    mov [outer_boundary], rdx
+    mov [outer_boundary], rdx			; Save and set the value of outer loop's bounds
     sub qword [outer_boundary], SIZE64t
 
     ;; for (j < size)
-    mov [inner_boundary], rdx
+    mov [inner_boundary], rdx			; Save and set the value of inner loop's bounds
 
     ;; r8 will be used as 'i'
     xor r8, r8 
     outer_loop:
-        mov rsi, [array_ptr]
-        add rsi, r8      
-        mov rdx, rsi
+        mov rsi, [array_ptr]			; Bring the array into RSI
+        add rsi, r8      			; Take the pointer to the element to be processed
+        mov rdx, rsi				; RDX will be used as the pointer to the smallest element in the array
         
         ;; r9 will be used as 'j'
         mov r9, r8
-        add r9, [elem_size]
+        add r9, elem_size			; Bring R9 to one element ahead of the R8
         
         ;; rdi is pointer at 'j'
         inner_loop:
             mov rdi, [array_ptr]
-            add rdi, r9     ; (array + j)
+            add rdi, r9     			; (array + j) - a pointer
 
-            mov rax, [rdi]  ; array[j]
-            mov rbx, [rdx]  ; array[min_p]
+            mov rax, [rdi]  			; array[j] - the element
+            mov rbx, [rdx]  			; array[rdx] - the current minimum element
 
             cmp rax, rbx
             jl if_less
             jmp cont
             
             if_less:
-                mov rdx, rdi
+               mov rdx, rdi			; Change the minimum pointer in RDX to the newly found smaller element
             cont:
-                add r9, [elem_size]
+                add r9, elem_size		; Take the R9 (j) to the next element
                 cmp r9, [inner_boundary]
         jl inner_loop
 
-        
-        mov r10, [rsi]
-        mov r11, [rdx]
+        ;; Swap the values
+        mov r10, [rsi]				; RSI is pointing to the array[i]
+        mov r11, [rdx]				; RDX is pointing to the smallest element in the array that's left
         
         mov [rsi], r11
         mov [rdx], r10
 
-        add r8, [elem_size]
+        add r8, elem_size
         cmp r8, [outer_boundary]
     jl outer_loop
     
-    popaq
+    popaq							; Restore all the registers to their original values
 ret
-
+    
 
