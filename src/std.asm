@@ -19,7 +19,7 @@ section .text
 
 %macro println 1
 section .data
-    string db %1, 10, 0
+    string db %1, 0
 
 section .text
     mov rsi, string
