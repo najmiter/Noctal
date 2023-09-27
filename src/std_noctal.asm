@@ -2,7 +2,7 @@
 ;;;;; FREE TO USE ANYWHERE (if it's worth it ofc :D)
 ;;;;;;; A small credit in the corner would be appreciated though :D
 
-%include "stdm.asm"
+%include "std_noctalm.asm"
 
 section .data
     SIZE_64t     equ 8
