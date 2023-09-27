@@ -89,7 +89,7 @@ std__to_string:
     mov rdi, 1            ; For keeping the number of digits in the original number
     mov rcx, 1            ; For keeping the divisor
     mov rbx, 10           ; For dividing the number by ten in each iteration 
-    get_divisor:
+    _get_divisor:
         xor rdx, rdx
         div rbx           ; Reduce the RAX by one digit
         
@@ -97,14 +97,14 @@ std__to_string:
         je _after         ; Break the loop if equal
         imul rcx, 10      ; Otherwise increase the divisor (RCX) ten times
         inc rdi           ; Increment number of digits as well (RDI)
-        jmp get_divisor   ; Unconditional jump to the first instruction of the 'loop'
+        jmp _get_divisor   ; Unconditional jump to the first instruction of the 'loop'
 
 
     _after:
         pop rax           ; Get back the value of RAX from the stack
         push rdi          ; Put the number of digits on the stack for later
 
-    to_string:
+    _to_string:
         xor rdx, rdx
         div rcx           ; Divide the number (RAX) by the divisor to get the first digit from the left
 
@@ -122,7 +122,7 @@ std__to_string:
         pop rax           ; Pop the top the stack into (RAX). It's the remaining part of the number
         
         cmp rcx, 0        ; See if the divisor has become zero
-        jg to_string      ; If not, repeat the same process
+        jg _to_string      ; If not, repeat the same process
 
     pop rdx               ; Pop the top of the stack into (RDX). It's the value of (RDI): the number of digits in the original number
     pop rsi               ; Bring (RSI) to the beginning of the string before returning as well
@@ -160,11 +160,11 @@ section .text
         div r10           
         
         cmp rax, 0        
-        je _after         
+        je _after_        
         imul rcx, 10      
         jmp get_divisor   
 
-    _after:
+    _after_:
         pop rax           
 
     to_string:
