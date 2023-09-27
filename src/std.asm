@@ -10,10 +10,11 @@ section .data
     EXIT_SUCCESS equ 0
 
 section .text
-    global std__strlen          ; return the length of a string in RDX
-    global std__cout            ; print a null terminated string to the console
-    global std__to_string       ; convert an integer into a string pointed to by RSI
+    global std__strlen          ; return the length (RDX) of a string (RSI)
+    global std__cout            ; print a null terminated string (RSI) to the console
+    global std__to_string       ; convert an integer (RAX) into a string (RSI)
     global printa               ; print the value of RAX to the console
+    global std__sort            ; sort an array (RSI) of given size (RDX)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
