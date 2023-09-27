@@ -189,6 +189,71 @@ section .text
     popaq
     ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;; sort_64array ;;;;;;;;;;;;;;;;;;;;;;
 
+std__sort:
+section .data
+    elem_size      dq 8
+    
+    array_ptr      dq 0
+    min_p          dq 0  ; to store the index of next minimum value in the array
+    outer_boundary dq 0  ; outer loop boundary
+    inner_boundary dq 0  ; inner loop boundary
+    
+section .text
+    pushaq
+    mov [array_ptr],  rsi
+    
+    ;; for (i < size - 1)
+    mov [outer_boundary], rdx
+    sub [outer_boundary], rcx
+
+    ;; for (j < size)
+    mov [inner_boundary], rdx
+
+    ;; r8 will be used as 'i'
+    xor r8, r8 
+    outer_loop:
+        mov rsi, [array_ptr]
+        add rsi, r8      
+        mov rdx, rsi
+        
+        ;; r9 will be used as 'j'
+        mov r9, r8
+        add r9, [elem_size]
+        
+        ;; rdi is pointer at 'j'
+        inner_loop:
+            mov rdi, [array_ptr]
+            add rdi, r9     ; (array + j)
+
+            mov rax, [rdi]  ; array[j]
+            mov rbx, [rdx]  ; array[min_p]
+
+            cmp rax, rbx
+            jl if_less
+            jmp cont
+            
+            if_less:
+                mov rdx, rdi
+            cont:
+                add r9, [elem_size]
+                cmp r9, [inner_boundary]
+        jl inner_loop
+
+        
+        mov r10, [rsi]
+        mov r11, [rdx]
+        
+        mov [rsi], r11
+        mov [rdx], r10
+
+        add r8, [elem_size]
+        cmp r8, [outer_boundary]
+    jl outer_loop
+    
+    popaq
+ret
 
 
