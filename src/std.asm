@@ -50,7 +50,7 @@ section .text
     push r15
 %endmacro
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;; pop all registers on stack ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;; pop all registers from stack ;;;;;;;;;;;;;
 
 %macro popaq 0
     pop r15
