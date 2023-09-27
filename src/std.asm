@@ -2,6 +2,8 @@
 ;;;;; FREE TO USE ANYWHERE (if it's worth it ofc :D)
 ;;;;;;; A small credit in the corner would be appreciated though :D
 
+%include "stdm.asm"
+
 section .data
     size_64t     equ 8
     EXIT         equ 60
