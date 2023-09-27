@@ -5,7 +5,7 @@
 %include "stdm.asm"
 
 section .data
-    size_64t     equ 8
+    SIZE_64t     equ 8
     EXIT         equ 60
     EXIT_SUCCESS equ 0
 
