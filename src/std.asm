@@ -262,7 +262,7 @@ section .text
         cmp r8, [outer_boundary]
     jl outer_loop
     
-    popaq							; Restore all the registers to their original values
+    popaq						; Restore all the registers to their original values
 ret
     
 
