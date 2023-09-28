@@ -74,13 +74,13 @@ section .text
     pushaq
     
     xor r11, r11
-    _loop:
+    ._loop:
         mov rax, [%1 + r11]
         call printa
         
         add r11, SIZE64t
         cmp r11, %2
-        jl _loop
+        jl ._loop
         
     popaq
 %endmacro
