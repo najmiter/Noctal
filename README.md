@@ -4,7 +4,7 @@ ___Noctal___ is a helper library, developed by me, for beginners trying to progr
 This is specially useful to those who have been programming in some high level language before and want to get to know the computers at a deeper level. This gives them a friendly handshake with the language one step higher than the binary itself.
 
 ## How to assemble using NASM
-To use ___Noctal___ in your code, you will have to download the [`std_notcal.asm`](https://github.com/najmiter/Noctal/blob/main/src/std_noctal.asm) and [`std_noctalm.asm`](https://github.com/najmiter/Noctal/blob/main/src/std_noctalm.asm) files into your wokring directory as well. Then include `std_noctal.asm` in your `main.asm`. Then, considering, your `asm` file name is `main`, you can use the following command from your working directory:
+To use ___Noctal___ in your code, you will have to download the [`std_notcal.asm`](https://github.com/najmiter/Noctal/blob/main/src/std_noctal.asm) and [`std_noctalm.asm`](https://github.com/najmiter/Noctal/blob/main/src/std_noctalm.asm) files into your wokring directory as well. Then include `std_noctal.asm` in your `main.asm`. Then, considering, your `asm` file name is `main`, you can use the following commands from your working directory:
 
 `nasm -felf64 main.asm -o main && ld main -o a.out && ./a.out`
 
