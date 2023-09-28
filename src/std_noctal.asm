@@ -31,13 +31,13 @@ std__strlen:
 
     push rsi
     xor rdx, rdx
-    strlen:
+    .strlen:
         mov al, [rsi]
         inc rdx
         inc rsi
 
         cmp al, 0
-        jne strlen
+        jne .strlen
 
     pop rsi
     ret
@@ -89,22 +89,22 @@ std__to_string:
     mov rdi, 1            ; For keeping the number of digits in the original number
     mov rcx, 1            ; For keeping the divisor
     mov rbx, 10           ; For dividing the number by ten in each iteration 
-    _get_divisor:
+    .get_divisor:
         xor rdx, rdx
         div rbx           ; Reduce the RAX by one digit
         
         cmp rax, 0        ; Compare RAX with zero
-        je _after         ; Break the loop if equal
+        je ._after         ; Break the loop if equal
         imul rcx, 10      ; Otherwise increase the divisor (RCX) ten times
         inc rdi           ; Increment number of digits as well (RDI)
-        jmp _get_divisor   ; Unconditional jump to the first instruction of the 'loop'
+        jmp .get_divisor   ; Unconditional jump to the first instruction of the 'loop'
 
 
-    _after:
+    ._after:
         pop rax           ; Get back the value of RAX from the stack
         push rdi          ; Put the number of digits on the stack for later
 
-    _to_string:
+    .to_string:
         xor rdx, rdx
         div rcx           ; Divide the number (RAX) by the divisor to get the first digit from the left
 
@@ -122,7 +122,7 @@ std__to_string:
         pop rax           ; Pop the top the stack into (RAX). It's the remaining part of the number
         
         cmp rcx, 0        ; See if the divisor has become zero
-        jg _to_string      ; If not, repeat the same process
+        jg .to_string      ; If not, repeat the same process
 
     pop rdx               ; Pop the top of the stack into (RDX). It's the value of (RDI): the number of digits in the original number
     pop rsi               ; Bring (RSI) to the beginning of the string before returning as well
@@ -155,19 +155,19 @@ section .text
 
     mov rcx, 1            
     mov r10, 10           
-    get_divisor:
+    .get_divisor:
         xor rdx, rdx
         div r10           
         
         cmp rax, 0        
-        je _after_        
+        je ._after        
         imul rcx, 10      
-        jmp get_divisor   
+        jmp .get_divisor   
 
-    _after_:
+    ._after:
         pop rax           
 
-    to_string:
+    .to_string:
         xor rdx, rdx
         div rcx           
         
@@ -188,7 +188,7 @@ section .text
         pop rax           
         
         cmp rcx, 0        
-        jg to_string      
+        jg .to_string      
 
     mov byte [_char], 10
     writechr _char
@@ -210,8 +210,6 @@ std__sort:
     ;
     ; ----------------------------------------------------------------------
 section .data
-    elem_size      equ 8
-    
     array_ptr      dq 0
     outer_boundary dq 0  ; boundary for the outer loop
     inner_boundary dq 0  ; boundary for the inner loop
@@ -229,17 +227,17 @@ section .text
 
     ;; r8 will be used as 'i'
     xor r8, r8 
-    outer_loop:
+    .outer_loop:
         mov rsi, [array_ptr]			; Bring the array into RSI
         add rsi, r8      			; Take the pointer to the element to be processed
         mov rdx, rsi				; RDX will be used as the pointer to the smallest element in the array
         
         ;; r9 will be used as 'j'
         mov r9, r8
-        add r9, elem_size			; Bring R9 to one element ahead of the R8
+        add r9, SIZE_64t			; Bring R9 to one element ahead of the R8
         
         ;; rdi is pointer at 'j'
-        inner_loop:
+        .inner_loop:
             mov rdi, [array_ptr]
             add rdi, r9     			; (array + j) - a pointer
 
@@ -247,15 +245,15 @@ section .text
             mov rbx, [rdx]  			; array[rdx] - the current minimum element
 
             cmp rax, rbx
-            jl if_less
-            jmp cont
+            jl .if_less
+            jmp .cont
             
-            if_less:
+            .if_less:
                mov rdx, rdi			; Change the minimum pointer in RDX to the newly found smaller element
-            cont:
-                add r9, elem_size		; Take the R9 (j) to the next element
+            .cont:
+                add r9, SIZE_64t		; Take the R9 (j) to the next element
                 cmp r9, [inner_boundary]
-        jl inner_loop
+        jl .inner_loop
 
         ;; Swap the values
         mov r10, [rsi]				; RSI is pointing to the array[i]
@@ -264,9 +262,9 @@ section .text
         mov [rsi], r11
         mov [rdx], r10
 
-        add r8, elem_size
+        add r8, SIZE_64t
         cmp r8, [outer_boundary]
-    jl outer_loop
+    jl .outer_loop
     
     popaq                            ; Restore all the registers to their original values
 ret
