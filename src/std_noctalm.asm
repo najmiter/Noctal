@@ -78,7 +78,7 @@ section .text
         mov rax, [%1 + r11]
         call printa
         
-        add r11, SIZE64t
+        add r11, SIZE_64t
         cmp r11, %2
         jl ._loop
         
