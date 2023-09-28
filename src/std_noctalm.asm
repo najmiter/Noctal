@@ -67,3 +67,12 @@ section .text
     mov rdx, %2
     call std__sort
 %endmacro
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;; print the value in %1 ;;;;;;;;;;;;;;;;;
+
+%macro print 1
+    push rax
+    mov rax, %1
+    call printa
+    pop rax
+%endmacro
