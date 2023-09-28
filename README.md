@@ -8,7 +8,7 @@ To use ___Noctal___ in your code, you will have to download the [`std_notcal.asm
 
 `nasm -felf64 main.asm -o main && ld main -o a.out && ./a.out`
 
-## Documentation, is it?
+## Functions
 Currently, it has the following procedures/functions/subroutines/labels/everything_else. 
 
 | Functions | Inputs | Outputs | Description |
