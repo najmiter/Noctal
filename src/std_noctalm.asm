@@ -67,20 +67,3 @@ section .text
     mov rdx, %2
     call std__sort
 %endmacro
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;; print an array of size ;;;;;;;;;;;;;;;;
-
-%macro print_array 2
-    pushaq
-    
-    xor r11, r11
-    ._loop:
-        mov rax, [%1 + r11]
-        call printa
-        
-        add r11, SIZE_64t
-        cmp r11, %2
-        jl ._loop
-        
-    popaq
-%endmacro
