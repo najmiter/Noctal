@@ -1,5 +1,5 @@
 # Noctal - NASM Helper Library
-___Noctal___ is a helper library, developed by me, for beginners trying to program in assembly using the __NASM__ assembler and __Linux syscalls__ (64bit)
+___Noctal___ is a helper library, for beginners trying to program in assembly using the __NASM__ assembler and __Linux syscalls__ (64bit)
 
 This is specially useful to those who have been programming in some high level language before and want to get to know the computers at a deeper level. This gives them a friendly handshake with the language one step higher than the binary itself.
 
